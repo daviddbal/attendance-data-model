@@ -4,6 +4,7 @@ plugins {
 
 group 'net.balsoftware.attandance'
 version '1.0-SNAPSHOT'
+description 'library of attendance data model'
 
 sourceCompatibility = 1.8
 
