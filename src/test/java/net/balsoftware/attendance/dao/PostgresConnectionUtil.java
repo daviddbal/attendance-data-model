@@ -34,16 +34,11 @@ public class PostgresConnectionUtil {
         Properties prop = null;
         String fileName = "test_database_config.properties";
         try {
-            URL url = PostgresConnectionTest.class.getResource(fileName);
+            URL propertiesUrl = PostgresConnectionTest.class.getResource(fileName);
             prop = new Properties();
 
             // load a properties file
-            prop.load(url.openStream());
-
-            // get the property value and print it out
-            System.out.println(prop.getProperty("db.url"));
-            System.out.println(prop.getProperty("db.user"));
-            System.out.println(prop.getProperty("db.password"));
+            prop.load(propertiesUrl.openStream());
 
         } catch (IOException ex) {
             ex.printStackTrace();
