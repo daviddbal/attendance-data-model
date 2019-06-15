@@ -2,11 +2,18 @@ package net.balsoftware.attendance.dao;
 
 import org.junit.Test;
 
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PostgresConnectionTest {
     @Test
-    public void canGetTableList() throws SQLException {
+    public void canGetTableList() throws SQLException, IOException {
         Connection connection = PostgresConnectionUtil.getInstance().getConnection();
         String query = "select * from users";
         Statement stmt = null;

@@ -1,5 +1,10 @@
 package net.balsoftware.attendance.dao;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,12 +24,30 @@ public class PostgresConnectionUtil {
     }
 
     public Connection getConnection() throws SQLException {
-        String url = "jdbc:postgresql://localhost/api";
-        Properties props = new Properties();
-        props.setProperty("user","postgres");
-        props.setProperty("password","postgres");
-//        props.setProperty("ssl","true");
-        Connection conn = DriverManager.getConnection(url, props);
+        Properties databaseProperties = readTestDatabaseProperties();
+        String url = databaseProperties.getProperty("url");
+        Connection conn = DriverManager.getConnection(url, databaseProperties);
         return conn;
+    }
+
+    private Properties readTestDatabaseProperties() {
+        Properties prop = null;
+        String fileName = "test_database_config.properties";
+        try {
+            URL url = PostgresConnectionTest.class.getResource(fileName);
+            prop = new Properties();
+
+            // load a properties file
+            prop.load(url.openStream());
+
+            // get the property value and print it out
+            System.out.println(prop.getProperty("db.url"));
+            System.out.println(prop.getProperty("db.user"));
+            System.out.println(prop.getProperty("db.password"));
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return prop;
     }
 }
