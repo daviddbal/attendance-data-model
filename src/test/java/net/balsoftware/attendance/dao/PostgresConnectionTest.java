@@ -10,6 +10,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,16 +27,19 @@ public class PostgresConnectionTest {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 int createdById = resultSet.getInt("created_by_id");
-                Timestamp createdTimestamp = resultSet.getTimestamp("created_timestamp");
-
-                System.out.println(createdTimestamp);
-//                ZonedDateTime createdZonedDateTime = ZonedDateTime.from(createdTimestamp.toInstant());
+                String createdTimestamp = resultSet.getString("created_timestamp");
+                DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                        .appendPattern("yyyy-MM-dd HH:mm:ss.SSSSSS"
+                        ).parseLenient()
+                        .appendOffset("+HH:MM", "Z")
+                        .toFormatter();
+                ZonedDateTime createdZonedDateTime = ZonedDateTime.parse(createdTimestamp, formatter);
                 String firstName = resultSet.getString("first_name");
                 String lastName = resultSet.getString("last_name");
 
                 Student student = new Student()
                         .withCreatedById(id)
-//                        .withCreatedTimestamp(createdZonedDateTime)
+                        .withCreatedTimestamp(createdZonedDateTime)
                         .withFirstName(firstName)
                         .withLastName(lastName)
                         .withCreatedById(createdById);
