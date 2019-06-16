@@ -1,5 +1,8 @@
 package net.balsoftware.attendance.dao;
 
+import net.balsoftware.attendance.connection.ConnectionHelper;
+
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -10,18 +13,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class PostgresConnectionUtil {
-
-    // Singleton - user getInstance()
-    private PostgresConnectionUtil() {
-    }
-
-    private static class SingletonHelper{
-        private static final PostgresConnectionUtil INSTANCE = new PostgresConnectionUtil();
-    }
-    public static PostgresConnectionUtil getInstance() {
-        return PostgresConnectionUtil.SingletonHelper.INSTANCE;
-    }
+@Singleton
+public class PostgresTestConnectionHelper implements ConnectionHelper {
 
     public Connection getConnection() throws SQLException {
         Properties databaseProperties = readTestDatabaseProperties();

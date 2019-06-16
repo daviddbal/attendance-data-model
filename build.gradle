@@ -20,4 +20,7 @@ dependencies {
     compile group: 'org.postgresql', name: 'postgresql', version: '42.+'
     // https://mvnrepository.com/artifact/com.h2database/h2
     testCompile group: 'com.h2database', name: 'h2', version: '1.+'
+    // https://mvnrepository.com/artifact/com.google.inject/guice
+    compile group: 'com.google.inject', name: 'guice', version: '4.0'
+
 }
